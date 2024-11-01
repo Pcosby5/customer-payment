@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Payment, PaymentDetail } from '@/types/payment';
 
+const API_URL = process.env.REACT_APP_API_URL; // Ensure your environment variable is set correctly
+
 export default function usePayments(startDate: string, endDate: string) {
     const [payments, setPayments] = useState<Payment[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -10,7 +12,7 @@ export default function usePayments(startDate: string, endDate: string) {
         setIsLoading(true);
         setError(null);
         try {
-            const url = `/api/paymentRoute?StartDate=${startDate}&EndDate=${endDate}`;
+            const url = `${API_URL}/api/paymentRoute?StartDate=${startDate}&EndDate=${endDate}`;
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -27,7 +29,8 @@ export default function usePayments(startDate: string, endDate: string) {
 
     const fetchPaymentById = async (paymentId: string): Promise<PaymentDetail | null> => {
         try {
-            const response = await fetch(`https://spes.pscgh.com:442/sales-api/api/Payments/${paymentId}`);
+            const url = `${API_URL}/api/Payments/${paymentId}`;
+            const response = await fetch(url);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data: PaymentDetail = await response.json();
             return data;

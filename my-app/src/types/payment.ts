@@ -44,3 +44,11 @@ export interface PaymentDetail {
         Address: string;
     };
 }
+
+// Add this interface at the top of the file
+export interface PaymentData {
+    amount: number;
+    currency: string;
+    description?: string;
+    // Add other payment fields as needed
+}
